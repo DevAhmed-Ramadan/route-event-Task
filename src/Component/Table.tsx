@@ -129,7 +129,7 @@ const TableOfCustomers = () => {
                                 ? // Default view: no search
                                 dataCustomers.map((customer) => {
                                     const customerTransactions = dataTransactions.filter(
-                                        (trans) => trans.customer_id === +customer.id
+                                        (trans) => trans.customer_id === customer.id
                                     );
                                     return customerTransactions.map((transaction) => (
                                         <tr
@@ -149,7 +149,7 @@ const TableOfCustomers = () => {
                                     ? // Customer name search
                                     filteredCustomers.map((customer) => {
                                         const customerTransactions = dataTransactions.filter(
-                                            (trans) => trans.customer_id === +customer.id
+                                            (trans) => trans.customer_id === customer.id
                                         );
                                         return customerTransactions.map((transaction) => (
                                             <tr
