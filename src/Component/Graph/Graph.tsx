@@ -24,14 +24,14 @@ function Graph() {
     console.log(customerId);
 
     function fetchTransData() {
-        axios.get('http://localhost:3000/transactions')
-            .then(({ data }) => setUserTransData(data))
+        axios.get('https://raw.githubusercontent.com/DevAhmed-Ramadan/route-event-Task/main/db.json')
+            .then(({ data }) => setUserTransData(data.transactions))
             .catch((err) => console.log(err))
     }
 
     function fetchCustData() {
-        axios.get('http://localhost:3000/customers')
-            .then(({ data }) => setUserCustData(data))
+        axios.get('https://raw.githubusercontent.com/DevAhmed-Ramadan/route-event-Task/main/db.json')
+            .then(({ data }) => setUserCustData(data.customers))
             .catch((err) => console.log(err))
     }
 

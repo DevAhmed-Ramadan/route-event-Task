@@ -5,11 +5,17 @@ import { useState } from 'react';
 interface CustomerType {
     id: string;
     name: string;
+
+}
+
+interface ApiResponse {
+    customers: CustomerType[];
+    transactions: TransactionType[];
 }
 
 interface TransactionType {
     id: string;
-    customer_id: number;
+    customer_id: string;
     amount: number;
     date: string;
 }
@@ -18,23 +24,25 @@ const TableOfCustomers = () => {
     const [searchedName, setSearchedName] = useState<string>('');
     const [searchedAmount, setSearchedAmount] = useState<string>('');
 
-    const { data: dataCustomers, isLoading: loadingCustomers } = useQuery({
+    const { data: dataCustomers, isLoading: loadingCustomers } = useQuery<CustomerType[], Error>({
         queryKey: ['customers'],
         queryFn: async () => {
-            const response = await axios.get<CustomerType[]>(
-                'http://localhost:3000/customers'
+            const response = await axios.get<ApiResponse>(
+                'https://raw.githubusercontent.com/DevAhmed-Ramadan/route-event-Task/main/db.json'
             );
-            return response.data;
+
+            return response.data.customers;
         },
     });
 
-    const { data: dataTransactions, isLoading: loadingTransactions } = useQuery({
+    const { data: dataTransactions, isLoading: loadingTransactions } = useQuery<TransactionType[], Error>({
         queryKey: ['transactions'],
         queryFn: async () => {
-            const response = await axios.get<TransactionType[]>(
-                'http://localhost:3000/transactions'
+            const response = await axios.get<ApiResponse>(
+                'https://raw.githubusercontent.com/DevAhmed-Ramadan/route-event-Task/main/db.json'
             );
-            return response.data;
+
+            return response.data.transactions;
         },
     });
 
@@ -50,7 +58,7 @@ const TableOfCustomers = () => {
     });
 
     return (
-        <div className=' overflow-auto'>
+        <div className='overflow-auto'>
             <div className='relative overflow-x-auto shadow-md sm:rounded-lg my-5'>
                 <div className='flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4'>
                     <div className='relative'>
@@ -160,7 +168,7 @@ const TableOfCustomers = () => {
                                     : // Transaction amount search
                                     filteredTransactions.map((transaction) => {
                                         const customer = dataCustomers.find(
-                                            (cust) => cust.id === transaction.customer_id.toString()
+                                            (cust) => cust.id === transaction.customer_id
                                         );
                                         return (
                                             <tr
